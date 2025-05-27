@@ -3,9 +3,11 @@ FROM node:20-alpine AS builder
 
 WORKDIR /app
 
-# Copia los archivos de definición de paquetes y los instala
-# Esto ayuda a que Docker use el cache si los paquetes no cambian
+# Copia los archivos de definición de paquetes y el archivo de configuración de Next.js
+# Esto ayuda a que Docker use el cache si estos archivos no cambian
 COPY package.json package-lock.json ./
+COPY next.config.js ./ # <-- ¡Añade esta línea aquí!
+
 RUN npm install
 
 # Copia el resto del código fuente de tu aplicación Next.js
@@ -24,7 +26,8 @@ WORKDIR /app
 ENV NODE_ENV production
 
 # Copia los archivos generados por la construcción desde la etapa 'builder'
-COPY --from=builder /app/next.config.js ./
+# next.config.js ya está en /app de la etapa builder, así que solo lo copiamos desde /app
+COPY --from=builder /app/next.config.js ./ # <-- Esta línea ahora funcionará correctamente
 COPY --from=builder /app/public ./public
 COPY --from=builder /app/.next ./.next
 COPY --from=builder /app/node_modules ./node_modules
