@@ -12,7 +12,7 @@ services:
     ports:
       - 8000:8000
     environment:
-      POSTGRES_HOST: "localhost"  
+      POSTGRES_HOST: "host.docker.internal"  
       POSTGRES_PORT: "8005"           
       POSTGRES_USER: "postgres"          
       POSTGRES_PASSWORD: "utec"     
