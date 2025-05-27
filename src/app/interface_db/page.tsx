@@ -70,7 +70,7 @@ export default function DataQuillPage() {
 
       const lowerQuery = sqlQuery.trim().toLowerCase();
 
-      const response = await fetch('http://localhost:8000/consultar', {
+      const response = await fetch('http://localhost:8000/consultar/20', {
                         method: 'POST',
                         headers: {
                           'Content-Type': 'application/json'

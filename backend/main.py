@@ -33,7 +33,7 @@ class ConsultaSQL(BaseModel):
 def get_connection():
     return psycopg2.connect(**DB_CONFIG)
 # Ejecutar cualquier consulta (SELECT o no SELECT)
-def ejecutar_consulta_sql(query: str):
+def ejecutar_consulta_sql(query: str, limit: int):
     try:
         conn = get_connection()
         cur = conn.cursor()
@@ -46,7 +46,7 @@ def ejecutar_consulta_sql(query: str):
             rows = cur.fetchall()
             df = pd.DataFrame(rows, columns=columns)
             
-            df_limited_rows = df.head(20) # Obtiene las primeras 10 filas
+            df_limited_rows = df.head(limit) # Obtiene las primeras 10 filas
             query_result = {
                 'columns': [{'key': col, 'name': col} for col in df_limited_rows.columns],
                 'rows': df_limited_rows.to_dict(orient='records'),
@@ -69,10 +69,10 @@ def ejecutar_consulta_sql(query: str):
         raise Exception(f"Error en la consulta: {e}")
 
 # Endpoint
-@app.post("/consultar")
-def ejecutar_consulta(entrada: ConsultaSQL):
+@app.post("/consultar/{limit}")
+def ejecutar_consulta(entrada: ConsultaSQL,limit:int ):
     try:
-        return ejecutar_consulta_sql(entrada.consulta)
+        return ejecutar_consulta_sql(entrada.consulta, limit)
     except Exception as e:
         raise HTTPException(status_code=400, detail=str(e))
     
