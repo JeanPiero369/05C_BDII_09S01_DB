@@ -29,6 +29,8 @@ services:
     build:
       context: .
       dockerfile: DockerFile
+      args:
+        NEXT_PUBLIC_BACK_API_URL: http://backend:8000
     image: frontend
     ports:
       - "3000:3000"

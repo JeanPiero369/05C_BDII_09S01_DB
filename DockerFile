@@ -3,6 +3,10 @@ FROM node:20-alpine AS builder
 
 WORKDIR /app
 
+# Define and accept build argument
+ARG NEXT_PUBLIC_BACK_API_URL
+ENV NEXT_PUBLIC_BACK_API_URL=$NEXT_PUBLIC_BACK_API_URL
+
 # Copia los archivos de definición de paquetes y el archivo de configuración de Next.js
 COPY package.json package-lock.json ./
 COPY next.config.ts ./
