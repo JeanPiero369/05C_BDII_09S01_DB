@@ -5,7 +5,7 @@ WORKDIR /app
 
 # Copia los archivos de definición de paquetes y el archivo de configuración de Next.js
 COPY package.json package-lock.json ./
-COPY next.config.ts ./ # Correctly references next.config.ts now
+COPY next.config.ts ./ 
 
 RUN npm install
 
@@ -25,7 +25,7 @@ WORKDIR /app
 ENV NODE_ENV production
 
 # Copia los archivos generados por la construcción desde la etapa 'builder'
-COPY --from=builder /app/next.config.ts ./ # Correctly references next.config.ts now
+COPY --from=builder /app/next.config.ts ./ 
 COPY --from=builder /app/public ./public
 COPY --from=builder /app/.next ./.next
 COPY --from=builder /app/node_modules ./node_modules
