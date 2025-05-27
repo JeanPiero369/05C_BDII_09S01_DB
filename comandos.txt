@@ -3,3 +3,23 @@ docker run -d --rm --name postgres_c -e POSTGRES_PASSWORD=utec -e POSTGRES_USER=
 
 # Contenedor de Adminer
 docker run -d --rm --name adminer_c -p 8080:8080 adminer
+
+============================================================
+
+🔢 Insertados 100 registros con índices (btree + hash + seq) en 23.8382 segundos.
+
+🔍 Comparando búsquedas con 100 registros en la tabla 'alumnos':
+
+🔸 Nombre = 'Luis'
+Hash Index     → 4 resultados en 0.037135 s
+Búsqueda Lineal→ 5 resultados en 0.001086 s
+
+🔸 Pensión en rango [500.0, 1000.0]
+Heap Scan      → 0 resultados en 0.000876 s
+SequentialIdx  → 45 resultados en 0.023434 s
+
+🔸 Ciclo = 5
+B+Tree Index   → 1 resultados en 0.017158 s
+Búsqueda Lineal→ 11 resultados en 0.000769 s
+
+============================================================
