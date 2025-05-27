@@ -12,7 +12,7 @@ services:
     ports:
       - 8000:8000
     environment:
-      POSTGRES_HOST: "postgres_c"  
+      POSTGRES_HOST: "localhost"  
       POSTGRES_PORT: "5432"           
       POSTGRES_USER: "postgres"          
       POSTGRES_PASSWORD: "utec"     
