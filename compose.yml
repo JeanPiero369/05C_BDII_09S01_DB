@@ -21,6 +21,8 @@ services:
       - my_network
     expose:
       - "8000"
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
 
 
   frontend:
