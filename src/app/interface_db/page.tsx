@@ -70,7 +70,7 @@ export default function DataQuillPage() {
 
       const lowerQuery = sqlQuery.trim().toLowerCase();
 
-      const response = await fetch('http://localhost:8000/consultar/20', {
+      const response = await fetch('${apiBaseUrl}/consultar/20', {
                         method: 'POST',
                         headers: {
                           'Content-Type': 'application/json'
@@ -109,7 +109,7 @@ export default function DataQuillPage() {
       description: "Refreshing Schema wait...",
     });
 
-    const response = await fetch('http://localhost:8000/estructura');
+    const response = await fetch('${apiBaseUrl}/estructura');
 
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
