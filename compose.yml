@@ -13,7 +13,7 @@ services:
       - 8000:8000
     environment:
       POSTGRES_HOST: "localhost"  
-      POSTGRES_PORT: "5432"           
+      POSTGRES_PORT: "8005"           
       POSTGRES_USER: "postgres"          
       POSTGRES_PASSWORD: "utec"     
       POSTGRES_DATABASE: "MY_DB"  
