@@ -13,13 +13,14 @@ interface QueryResult {
 }
 
 export default function DataQuillPage() {
-  const [sqlQuery, setSqlQuery] = useState<string>('SELECT * FROM Customers WHERE Country = \'Germany\';');
+  const [sqlQuery, setSqlQuery] = useState<string>('');
   const [schema, setSchema] = useState<SchemaData>();
   const [results, setResults] = useState<QueryResult>({ columns: [], rows: [] });
   const [queryError, setQueryError] = useState<string | null>(null);
   const [isLoadingQuery, setIsLoadingQuery] = useState<boolean>(false);
   const [executionTime, setExecutionTime] = useState<number | undefined>(undefined);
   const [rowCount, setRowCount] = useState<number | undefined>(undefined);
+  const apiBaseUrl = process.env.BACK_API_URL
 
   const { toast } = useToast();
 
@@ -27,7 +28,7 @@ export default function DataQuillPage() {
     const fetchInitialSchema = async () => {
 
       try {
-        const response = await fetch('http://localhost:8000/estructura');
+        const response = await fetch(`${apiBaseUrl}/estructura`);
 
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
@@ -70,7 +71,7 @@ export default function DataQuillPage() {
 
       const lowerQuery = sqlQuery.trim().toLowerCase();
 
-      const response = await fetch('${apiBaseUrl}/consultar/20', {
+      const response = await fetch(`${apiBaseUrl}/consultar/20`, {
                         method: 'POST',
                         headers: {
                           'Content-Type': 'application/json'
@@ -109,7 +110,7 @@ export default function DataQuillPage() {
       description: "Refreshing Schema wait...",
     });
 
-    const response = await fetch('${apiBaseUrl}/estructura');
+    const response = await fetch(`${apiBaseUrl}/estructura`);
 
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
