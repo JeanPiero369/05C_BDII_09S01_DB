@@ -5,14 +5,15 @@ import psycopg2
 import json
 from fastapi.middleware.cors import CORSMiddleware
 import uvicorn  # Importar uvicorn para correr el servidor
+import os
 
 # Configuración
 DB_CONFIG = {
-    "host": "localhost",
-    "database": "my_db",
-    "user": "postgres",
-    "password": "utec",
-    "port": "8005"
+    "host": os.getenv("POSTGRES_HOST", "localhost"), # 'localhost' como valor por defecto si la variable no existe
+    "database": os.getenv("POSTGRES_DATABASE", "MY_DB"),
+    "user": os.getenv("POSTGRES_USER", "postgres"),
+    "password": os.getenv("POSTGRES_PASSWORD", "utec"),
+    "port": os.getenv("POSTGRES_PORT", "5432")
 }
 
 # FastAPI App

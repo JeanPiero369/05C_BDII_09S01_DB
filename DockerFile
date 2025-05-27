@@ -1,0 +1,36 @@
+# Stage 1: Build the Next.js application
+FROM node:20-alpine AS builder
+
+WORKDIR /app
+
+# Copia los archivos de definición de paquetes y los instala
+# Esto ayuda a que Docker use el cache si los paquetes no cambian
+COPY package.json package-lock.json ./
+RUN npm install
+
+# Copia el resto del código fuente de tu aplicación Next.js
+COPY . .
+
+# Construye la aplicación Next.js para producción
+# La bandera --no-lint minimiza las advertencias durante la construcción
+RUN npm run build --no-lint
+
+# Stage 2: Create the production image
+FROM node:20-alpine AS runner
+
+WORKDIR /app
+
+# Establece el entorno de producción
+ENV NODE_ENV production
+
+# Copia los archivos generados por la construcción desde la etapa 'builder'
+COPY --from=builder /app/next.config.js ./
+COPY --from=builder /app/public ./public
+COPY --from=builder /app/.next ./.next
+COPY --from=builder /app/node_modules ./node_modules
+
+# Expone el puerto por defecto de Next.js
+EXPOSE 3000
+
+# Define el comando para iniciar la aplicación Next.js en producción
+CMD ["npm", "start"]

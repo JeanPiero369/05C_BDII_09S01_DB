@@ -1,0 +1,39 @@
+
+networks:
+  my_network:
+    driver: bridge
+
+services:
+  backend:
+    build:
+      context: ./backend
+    image: backend
+    ports:
+      - 8000:8000
+    environment:
+      POSTGRES_HOST: "postgres_c"  
+      POSTGRES_PORT: "5432"           
+      POSTGRES_USER: "postgres"          
+      POSTGRES_PASSWORD: "utec"     
+      POSTGRES_DATABASE: "MY_DB"  
+    networks: 
+      - my_network
+    expose:
+      - "8000"
+
+
+  frontend:
+    build:
+      context: .
+    image: frontend
+    ports:
+      - "3000:3000"
+    environment:
+      - BACK_API_URL=http://backend:8000
+    restart: always
+    depends_on:
+      - backend
+    networks: 
+      - my_network
+    expose:
+      - "3000"
